@@ -1,0 +1,5 @@
+manifest_version: 1
+name: Doc2QueryExecutor
+description: An executor that generates questions from sentences
+url: https://github.com/jina-ai/executor-doc2query
+keywords: [segmenter]

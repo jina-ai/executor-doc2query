@@ -1,13 +1,12 @@
 # Doc2QueryExecutor
 
-**Doc2QueryExecutor** is a class which generates "questions" from sentences and add them into chunks.
+**Doc2QueryExecutor** is an executor which generates "questions" from sentences and add them into chunks.
 
 
 ## Usage 
 
 ```python
 from jina import Flow, DocumentArray, Document
-import random
 
 document_array= DocumentArray(
         [

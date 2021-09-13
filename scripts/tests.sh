@@ -7,6 +7,7 @@ test_dir=$(pwd)/tests
 
 pip install wheel
 pip install -r requirements.txt
+pip install -r tests/requirements.txt
 pytest -s -v tests/
 local_exit_code=$?
 

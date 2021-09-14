@@ -10,7 +10,7 @@ from jina import Flow, DocumentArray, Document
 
 document_array= DocumentArray(
         [
-            Document(id='doc1',content='Hello world'),
+            Document(id='doc1',content='Doc2QueryExecutor is an executor which generates "questions" from sentences and add them into chunks.'),
             Document(id='doc2',content='Neural search is deep neural network-powered information retrieval'),
         ])
 

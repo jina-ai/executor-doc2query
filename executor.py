@@ -12,24 +12,24 @@ class Doc2QueryExecutor(Executor):
     """
     def __init__(self,
                  num_questions: int = 10,
-                 default_traversal_paths: Iterable[str] = ('r',),
+                 traversal_paths: Iterable[str] = ('r',),
                  **kwargs):
-        super().__init__(**kwargs)
         """
         :param num_questions: the number of questions to generate
         :param default_traversal_paths: the traverse path on docs, e.g. ['r'], ['c']
         """
+        super().__init__(**kwargs)
 
         self._device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         self._tokenizer = T5Tokenizer.from_pretrained('castorini/doc2query-t5-base-msmarco')
         self._model = T5ForConditionalGeneration.from_pretrained('castorini/doc2query-t5-base-msmarco')
         self._model.to(self._device)
         self._num_questions = num_questions
-        self._default_traversal_paths = default_traversal_paths
+        self._traversal_paths = traversal_paths
 
     @requests
     def doc2query(self, docs: DocumentArray, **kwargs):
-        for d in docs.traverse_flat(self._default_traversal_paths):
+        for d in docs.traverse_flat(self._traversal_paths):
             input_ids = self._tokenizer.encode(d.content, return_tensors='pt').to(self._device)
 
             outputs = self._model.generate(

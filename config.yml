@@ -1,7 +1,4 @@
 jtype: Doc2QueryExecutor
-with:
-  match_args: {}
 metas:
   py_modules:
     - executor.py
-  workspace: workspace/

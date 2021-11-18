@@ -12,7 +12,7 @@ class Doc2QueryExecutor(Executor):
     """
     def __init__(self,
                  num_questions: int = 10,
-                 traversal_paths: Iterable[str] = ('r',),
+                 traversal_paths: str = 'r',
                  **kwargs):
         """
         :param num_questions: the number of questions to generate

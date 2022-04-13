@@ -1,2 +1,2 @@
-jina[core]==3.0.0
+jina==3.2.9
 pytest==6.2.4

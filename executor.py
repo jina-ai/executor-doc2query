@@ -1,3 +1,5 @@
+from typing import Dict
+
 import torch
 from docarray import Document, DocumentArray
 from jina import Executor, requests
@@ -13,7 +15,7 @@ class Doc2QueryExecutor(Executor):
     def __init__(self, num_questions: int = 10, traversal_paths: str = '@r', **kwargs):
         """
         :param num_questions: the number of questions to generate
-        :param default_traversal_paths: the traverse path on docs, e.g. '@r', '@c'
+        :param traversal_paths: the traverse path on docs, e.g. '@r', '@c'
         """
         super().__init__(**kwargs)
 
@@ -29,8 +31,16 @@ class Doc2QueryExecutor(Executor):
         self._traversal_paths = traversal_paths
 
     @requests
-    def doc2query(self, docs: DocumentArray, **kwargs):
-        for d in docs[self._traversal_paths]:
+    def doc2query(self, docs: DocumentArray, parameters: Dict = {}, **kwargs):
+        """
+        Generates queries for documents stores them into chunks
+
+        :param docs: document array containing text that we will generate questions for
+        :param parameters: dict with optional parameters
+        :param **kwargs: keyword arguments
+        """
+        traversal_paths = parameters.get('traversal_paths', self._traversal_paths)
+        for d in docs[traversal_paths]:
             input_ids = self._tokenizer.encode(d.text, return_tensors='pt').to(
                 self._device
             )

@@ -1,3 +1,5 @@
+import time
+
 import pytest
 from docarray import Document, DocumentArray
 from jina import Flow
@@ -23,13 +25,6 @@ def docs():
     )
 
 
-def test_doc2query(docs):
-    doc2query = Doc2QueryExecutor(num_questions=NUM_QUESTIONS)
-    doc2query.doc2query(docs)
-    for d in docs:
-        assert len(d.chunks) == 10
-
-
 def test_flow(docs):
     f = Flow().add(uses=Doc2QueryExecutor)
 
@@ -39,3 +34,10 @@ def test_flow(docs):
             inputs=docs,
         )
         assert len(result_docs[0].chunks) == 10
+
+
+def test_doc2query(docs):
+    doc2query = Doc2QueryExecutor(num_questions=NUM_QUESTIONS)
+    doc2query.doc2query(docs)
+    for d in docs:
+        assert len(d.chunks) == 10

@@ -20,7 +20,7 @@ class Doc2QueryExecutor(Executor):
         """
 
         if("traversal_paths" in kwargs.keys()):
-            warn("'traversal_paths' is deprecated, please use 'access_paths'")
+            warn("'traversal_paths' is deprecated, please use 'access_paths'",DeprecationWarning,stacklevel=2)
 
         super().__init__(**kwargs)
 

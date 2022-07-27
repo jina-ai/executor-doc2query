@@ -1,4 +1,4 @@
-from typing import Dict
+from typing import Dict,Optional
 from warnings import warn
 
 import torch
@@ -13,14 +13,16 @@ class Doc2QueryExecutor(Executor):
 
     """
 
-    def __init__(self, num_questions: int = 10, access_paths: str = '@r', **kwargs):
+    def __init__(self,
+                 num_questions: int = 10,
+                 access_paths: str = '@r',
+                 traversal_paths: Optional[str] = None,
+                 **kwargs):
         """
         :param num_questions: the number of questions to generate
         :param access_paths: the traverse path on docs, e.g. '@r', '@c'
+        :param traversal_paths: please use access_paths
         """
-
-        if("traversal_paths" in kwargs.keys()):
-            warn("'traversal_paths' is deprecated, please use 'access_paths'",DeprecationWarning,stacklevel=2)
 
         super().__init__(**kwargs)
 
@@ -33,7 +35,14 @@ class Doc2QueryExecutor(Executor):
         )
         self._model.to(self._device)
         self._num_questions = num_questions
-        self._access_paths = access_paths
+
+        if traversal_paths is not None:
+            self._access_paths = traversal_paths
+            warn("'traversal_paths' will be depracated in the future, please use 'access_paths'",
+                 DeprecationWarning,
+                 stacklevel=2)
+        else:
+            self._access_paths = access_paths
 
     @requests
     def doc2query(self, docs: DocumentArray, parameters: Dict = {}, **kwargs):
